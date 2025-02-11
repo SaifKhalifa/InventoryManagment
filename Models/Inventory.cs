@@ -71,6 +71,18 @@ public class Inventory
 
     public void PrintAllProducts()
     {
+        if (products.Count > 0)
+        {
+            foreach (var prod in products)
+            {
+                Console.WriteLine($"Product name : '{prod.Name}'\n" +
+                                  $"Quantity : '{prod.Quantity}'\n" +
+                                  $"Price : '{prod.Price}'");
+                Console.WriteLine("----------");
+            }
+        }
+        else
+            PrintError(ErrorCode.NullName);
     }
 
     public int EditProduct()
