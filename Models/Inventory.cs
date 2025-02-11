@@ -82,21 +82,12 @@ public class Inventory
             }
         }
         else
-            PrintError(ErrorCode.NullName);
+            PrintError(ErrorCode.EmptyInventory);
     }
 
     public bool EditProduct()
     {
-        Console.Write("Enter product name to search for: ");
-        productName = Console.ReadLine()?.Trim();
-        
-        if (string.IsNullOrWhiteSpace(productName)) // Error handle
-        {
-            PrintError(ErrorCode.NullName);
-            return false;
-        }
-        
-        int index = SearchProduct(false, productName);
+        int index = SearchProduct();
         
         if (index == -1) 
         {
@@ -136,18 +127,10 @@ public class Inventory
     
     public bool DeleteProduct()
     {
-        Console.Write("Enter product name to search for: ");
-        productName = Console.ReadLine()?.Trim();
+        int index = SearchProduct();
+        if (index >= 0) products.RemoveAt(index);
+        else return false;
         
-        if (string.IsNullOrWhiteSpace(productName)) // Error handle
-        {
-            PrintError(ErrorCode.NullName);
-            return false;
-        }
-        
-        int index = SearchProduct(false, productName);
-        
-        products.RemoveAt(index);
         return true;
     }
 
