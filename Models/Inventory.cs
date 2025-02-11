@@ -85,10 +85,55 @@ public class Inventory
             PrintError(ErrorCode.NullName);
     }
 
-    public int EditProduct()
+    public bool EditProduct()
     {
-    }
+        Console.Write("Enter product name to search for: ");
+        productName = Console.ReadLine()?.Trim();
+        
+        if (string.IsNullOrWhiteSpace(productName)) // Error handle
+        {
+            PrintError(ErrorCode.NullName);
+            return false;
+        }
+        
+        int index = SearchProduct(false, productName);
+        
+        if (index == -1) 
+        {
+            Console.WriteLine("Product not found. Cannot edit.");
+            return false;
+        }
+        
+        Product product = products[index];
 
+        Console.WriteLine($"Current product name: {products[index].Name}\n," +
+                          $"Current quantity: {products[index].Quantity}\n," +
+                          $"Current price: {products[index].Price}\n");
+        
+        Console.Write("Enter new product name (LEAVE IT BLANK TO KEEP IT AS IT'S): ");
+        productName = Console.ReadLine()?.Trim();
+        if (!string.IsNullOrWhiteSpace(productName))
+        {
+            product.Name = productName;
+        }
+        
+        Console.Write("Enter new product price (LEAVE IT BLANK TO KEEP IT AS IT'S): ");
+        
+        string priceInput = Console.ReadLine()?.Trim();
+        if (!string.IsNullOrWhiteSpace(priceInput) && float.TryParse(priceInput, out float newPrice) && newPrice > 0)
+        {
+            product.Price = newPrice;
+        }
+
+        Console.Write("Enter new product quantity (LEAVE IT BLANK TO KEEP IT AS IT'S): ");
+        string quantityInput = Console.ReadLine()?.Trim();
+        if (!string.IsNullOrWhiteSpace(quantityInput) && int.TryParse(quantityInput, out int newQuantity) && newQuantity >= 0)
+        {
+            product.Quantity = newQuantity;
+        }
+        return true;
+    }
+    
     public bool DeleteProduct()
     {
         Console.Write("Enter product name to search for: ");
