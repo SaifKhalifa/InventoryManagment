@@ -5,10 +5,10 @@ public class Inventory
     
     //Error handling
     private const string 
-        ERROR_EMPTY = "The inventory is empty.",
-        ERROR_NULL_NAME = "The product name cannot be null or empty.",
-        ERROR_INVALID_PRICE = "The product price must be greater than zero",
-        ERROR_INVALID_QUANTITY = "The product quantity cannot be negative.";
+        ERROR_EMPTY = "\aThe inventory is empty.",
+        ERROR_NULL_NAME = "\aThe product name cannot be null or empty.",
+        ERROR_INVALID_PRICE = "\aThe product price must be greater than zero",
+        ERROR_INVALID_QUANTITY = "\aThe product quantity cannot be negative.";
     private enum ErrorCode
     {
         NullName = 1,
@@ -93,9 +93,33 @@ public class Inventory
     {
     }
 
-    public int SearchProduct()
+    public int SearchProduct(bool displayDetails = false)
     {
+        Console.Write("Enter product name to search for: ");
+        productName = Console.ReadLine()?.Trim();
         
+        if (string.IsNullOrWhiteSpace(productName)) // Error handle
+        {
+            PrintError(ErrorCode.NullName);
+            return -1;
+        }
+
+        for (int i = 0; i < products.Count; i++)
+        {
+            if (products[i].Name.Equals(productName, StringComparison.OrdinalIgnoreCase))
+            {
+                if (displayDetails)
+                {
+                    Console.WriteLine("\nProduct found! Here are the details:");
+                    Console.WriteLine($"Product Name: {products[i].Name}");
+                    Console.WriteLine($"Quantity: {products[i].Quantity}");
+                    Console.WriteLine($"Price: {products[i].Price}");
+                }
+                return i; // Return the index
+            }
+        }
+        Console.WriteLine($"\aThere's no product with name '{productName}'!");
+        return -1;
     }
     
 }
