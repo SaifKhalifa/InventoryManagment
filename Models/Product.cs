@@ -1,9 +1,14 @@
-namespace Models
+namespace Models;
+class Product
 {
-    Public class Product
+    string name { get; set; }
+    int quantity { get; set; }
+    float price { get; set; }
+
+    public Product(string name, int quantity, float price)
     {
-        String name { get; set; }
-        int quantity { get; set; }
-        float price { get; set; }
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
     }
 }
