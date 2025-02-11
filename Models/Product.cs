@@ -1,14 +1,16 @@
 namespace Models;
 class Product
 {
-    string name { get; set; }
-    int quantity { get; set; }
-    float price { get; set; }
+    public string Name { get; set; }
+    public int Quantity { get; set; }
+    public float Price { get; set; }
+
+    public Product() {}
 
     public Product(string name, int quantity, float price)
     {
-        this.name = name;
-        this.quantity = quantity;
-        this.price = price;
+        this.Name = name;
+        this.Quantity = quantity;
+        this.Price = price;
     }
 }
