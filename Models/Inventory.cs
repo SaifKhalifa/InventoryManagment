@@ -91,9 +91,22 @@ public class Inventory
 
     public bool DeleteProduct()
     {
+        Console.Write("Enter product name to search for: ");
+        productName = Console.ReadLine()?.Trim();
+        
+        if (string.IsNullOrWhiteSpace(productName)) // Error handle
+        {
+            PrintError(ErrorCode.NullName);
+            return false;
+        }
+        
+        int index = SearchProduct(false, productName);
+        
+        products.RemoveAt(index);
+        return true;
     }
 
-    public int SearchProduct(bool displayDetails = false)
+    public int SearchProduct(bool displayDetails = false, string productName = "")
     {
         Console.Write("Enter product name to search for: ");
         productName = Console.ReadLine()?.Trim();
