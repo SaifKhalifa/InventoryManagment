@@ -94,7 +94,7 @@ public class Inventory
     {
         int index = SearchProduct();
         
-        if (index == -1) 
+        if (index < 0) 
         {
             Console.WriteLine("Product not found. Cannot edit.");
             return false;
