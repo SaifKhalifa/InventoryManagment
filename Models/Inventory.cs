@@ -3,7 +3,7 @@
 namespace InventoryManagment.Models;
 public class Inventory
 {
-    List<Product> products = new List<Product>();
+    private List<Product> products = new List<Product>();
     
     //Error handling
     private const string 
