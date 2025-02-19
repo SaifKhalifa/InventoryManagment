@@ -39,6 +39,9 @@ public class Inventory
             case ErrorCode.EmptyInventory:
                 Console.WriteLine(ErrorEmpty);
                 break;
+            default:
+                Console.WriteLine("Unknown error");
+                break;
         }
     }
     
