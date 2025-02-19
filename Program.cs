@@ -6,8 +6,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Inventory inventory = new Inventory();
-        bool exit = false;
+        var inventory = new Inventory();
+        var exit = false;
 
         while (!exit)
         {
@@ -63,16 +63,17 @@ class Program
 
     static void MainMenu()
     {
+        const string hr = "============================================";
         Console.Clear();
-        Console.WriteLine("============================================");
+        Console.WriteLine(hr);
         Console.WriteLine("\tSimple Inventory Management System");
-        Console.WriteLine("============================================");
+        Console.WriteLine(hr);
         Console.WriteLine("\t[1] Add Product");
         Console.WriteLine("\t[2] View All Products");
         Console.WriteLine("\t[3] Edit A Product");
         Console.WriteLine("\t[4] Delete A Product");
         Console.WriteLine("\t[5] Search For A Product");
         Console.WriteLine("\t[6] Exit");
-        Console.WriteLine("============================================");
+        Console.WriteLine(hr);
     }
 }
