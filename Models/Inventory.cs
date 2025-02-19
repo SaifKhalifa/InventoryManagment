@@ -3,14 +3,14 @@
 namespace InventoryManagment.Models;
 public class Inventory
 {
-    private List<Product> products = new List<Product>();
+    private List<Product> _products = new List<Product>();
     
     //Error handling
     private const string 
-        ERROR_EMPTY = "\aThe inventory is empty.",
-        ERROR_NULL_NAME = "\aThe product name cannot be null or empty.",
-        ERROR_INVALID_PRICE = "\aThe product price must be greater than zero",
-        ERROR_INVALID_QUANTITY = "\aThe product quantity cannot be negative.";
+        ErrorEmpty = "\aThe inventory is empty.",
+        ErrorNullName = "\aThe product name cannot be null or empty.",
+        ErrorInvalidPrice = "\aThe product price must be greater than zero",
+        ErrorInvalidQuantity = "\aThe product quantity cannot be negative.";
     private enum ErrorCode
     {
         NullName = 1,
@@ -18,26 +18,26 @@ public class Inventory
         InvalidQuantity = 3,
         EmptyInventory = 4
     }
-    
-    string productName = "";
-    float price = 0;
-    int quantity = 0;
+
+    private string _productName = "";
+    private float _price = 0;
+    private int _quantity = 0;
 
     private void PrintError(ErrorCode errorCode)
     {
         switch (errorCode)
         {
             case ErrorCode.NullName:
-                Console.WriteLine(ERROR_NULL_NAME);
+                Console.WriteLine(ErrorNullName);
                 break;
             case ErrorCode.InvalidPrice:
-                Console.WriteLine(ERROR_INVALID_PRICE);
+                Console.WriteLine(ErrorInvalidPrice);
                 break;
             case ErrorCode.InvalidQuantity:
-                Console.WriteLine(ERROR_INVALID_QUANTITY);
+                Console.WriteLine(ErrorInvalidQuantity);
                 break;
             case ErrorCode.EmptyInventory:
-                Console.WriteLine(ERROR_EMPTY);
+                Console.WriteLine(ErrorEmpty);
                 break;
         }
     }
@@ -45,37 +45,37 @@ public class Inventory
     public void AddProduct()
     {
         Console.Write("Enter product name: ");
-        productName = Console.ReadLine()?.Trim();
+        _productName = Console.ReadLine()?.Trim();
 
-        if (string.IsNullOrWhiteSpace(productName)) // Error handle
+        if (string.IsNullOrWhiteSpace(_productName)) // Error handle
         {
             PrintError(ErrorCode.NullName);
             return;
         }
 
         Console.Write("Enter product price: ");
-        if (!float.TryParse(Console.ReadLine(), out price) || price <= 0) // Error handle
+        if (!float.TryParse(Console.ReadLine(), out _price) || _price <= 0) // Error handle
         {
             PrintError(ErrorCode.InvalidPrice);
             return;
         }
 
         Console.Write("Enter product quantity: ");
-        if (!int.TryParse(Console.ReadLine(), out quantity) || quantity < 0) // Error handle
+        if (!int.TryParse(Console.ReadLine(), out _quantity) || _quantity < 0) // Error handle
         {
             PrintError(ErrorCode.InvalidQuantity);
             return;
         }
 
-        products.Add(new Product(productName, quantity, price));
-        Console.WriteLine($"Product '{productName}' successfully added to te inventory!");
+        _products.Add(new Product(_productName, _quantity, _price));
+        Console.WriteLine($"Product '{_productName}' successfully added to te inventory!");
     }
 
     public void PrintAllProducts()
     {
-        if (products.Count > 0)
+        if (_products.Count > 0)
         {
-            foreach (var prod in products)
+            foreach (var prod in _products)
             {
                 Console.WriteLine($"Product name : '{prod.Name}'\n" +
                                   $"Quantity : '{prod.Quantity}'\n" +
@@ -97,17 +97,17 @@ public class Inventory
             return false;
         }
         
-        Product product = products[index];
+        Product product = _products[index];
 
-        Console.WriteLine($"Current product name: {products[index].Name}\n," +
-                          $"Current quantity: {products[index].Quantity}\n," +
-                          $"Current price: {products[index].Price}\n");
+        Console.WriteLine($"Current product name: {_products[index].Name}\n," +
+                          $"Current quantity: {_products[index].Quantity}\n," +
+                          $"Current price: {_products[index].Price}\n");
         
         Console.Write("Enter new product name (LEAVE IT BLANK TO KEEP IT AS IT'S): ");
-        productName = Console.ReadLine()?.Trim();
-        if (!string.IsNullOrWhiteSpace(productName))
+        _productName = Console.ReadLine()?.Trim();
+        if (!string.IsNullOrWhiteSpace(_productName))
         {
-            product.Name = productName;
+            product.Name = _productName;
         }
         
         Console.Write("Enter new product price (LEAVE IT BLANK TO KEEP IT AS IT'S): ");
@@ -130,7 +130,7 @@ public class Inventory
     public bool DeleteProduct()
     {
         int index = SearchProduct();
-        if (index >= 0) products.RemoveAt(index);
+        if (index >= 0) _products.RemoveAt(index);
         else return false;
         
         return true;
@@ -147,16 +147,16 @@ public class Inventory
             return -1;
         }
 
-        for (int i = 0; i < products.Count; i++)
+        for (int i = 0; i < _products.Count; i++)
         {
-            if (products[i].Name.Equals(productName, StringComparison.OrdinalIgnoreCase))
+            if (_products[i].Name.Equals(productName, StringComparison.OrdinalIgnoreCase))
             {
                 if (displayDetails)
                 {
                     Console.WriteLine("\nProduct found! Here are the details:");
-                    Console.WriteLine($"Product Name: {products[i].Name}");
-                    Console.WriteLine($"Quantity: {products[i].Quantity}");
-                    Console.WriteLine($"Price: {products[i].Price}");
+                    Console.WriteLine($"Product Name: {_products[i].Name}");
+                    Console.WriteLine($"Quantity: {_products[i].Quantity}");
+                    Console.WriteLine($"Price: {_products[i].Price}");
                 }
                 return i; // Return the index
             }
