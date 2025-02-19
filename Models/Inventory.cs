@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using Models;
+
+namespace InventoryManagment.Models;
 public class Inventory
 {
     List<Product> products = new List<Product>();

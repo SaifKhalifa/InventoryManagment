@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using InventoryManagment.Models;
 
 namespace InventoryManagment;
 
