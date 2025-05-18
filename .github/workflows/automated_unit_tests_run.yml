@@ -31,7 +31,7 @@ jobs:
         run: |
           docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 
-      - name: 🛠 Install sqlcmd tools
+      - name: Install sqlcmd tools
         run: |
           curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
           sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/22.04/prod.list)"
@@ -64,4 +64,7 @@ jobs:
         run: dotnet build MainCode/InventoryManagment.sln --configuration Release --no-restore
 
       - name: Run Unit Tests
+        env:
+          DB_CONNECTION_STRING: "Server=localhost,1433;Database=InventoryDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
         run: dotnet test MainCode/InventoryManagment.sln --verbosity normal
+
