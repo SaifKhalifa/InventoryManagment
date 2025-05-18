@@ -104,6 +104,18 @@ public class ProductRepository
         }
         return product;
     }
+    public async Task DeleteProductAsync(int id)
+    {
+        using (SqlConnection conn = new SqlConnection(_connectionString))
+        {
+            await conn.OpenAsync();
+            string query = "DELETE FROM Products WHERE Id = @id";
 
-
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+    }
 }
