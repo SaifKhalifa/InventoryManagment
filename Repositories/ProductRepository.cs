@@ -27,10 +27,16 @@ public class ProductRepository
         }
         catch (SqlException ex)
         {
-            Console.WriteLine("Database connection error: " + ex.Message);
+            Console.WriteLine("SQL error: " + ex.Message);
+            return false;
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine("Connection string error: " + ex.Message);
             return false;
         }
     }
+
 
     public async Task AddProductAsync(Product product)
     {
