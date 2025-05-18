@@ -2,7 +2,7 @@
 using Moq;
 using InventoryManagment.Repositories;
 using InventoryManagment.Models;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
@@ -13,7 +13,7 @@ namespace InventoryManagment.Tests;
 
 public class ProductRepositoryTests : IAsyncLifetime
 {
-    private const string _DummyConnectionString = "Server=localhost;Database=InventoryDB;Integrated Security=True;";
+    private const string _DummyConnectionString = "Server=localhost,1433;Database=InventoryDB;User Id=sa;Password=YourStrong!Passw0rd;";
     private ProductRepository _repo;
     private readonly List<int> _createdTestProductIds = new();
 
