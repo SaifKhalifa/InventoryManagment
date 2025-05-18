@@ -13,7 +13,10 @@ namespace InventoryManagment.Tests;
 
 public class ProductRepositoryTests : IAsyncLifetime
 {
-    private const string _DummyConnectionString = "Server=localhost,1433;Database=InventoryDB;User Id=sa;Password=YourStrong!Passw0rd;";
+    private static readonly string _DummyConnectionString =
+        Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+        "Server=SAIFKHALIFA-PC;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
+
     private ProductRepository _repo;
     private readonly List<int> _createdTestProductIds = new();
 
