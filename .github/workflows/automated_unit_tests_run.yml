@@ -1,0 +1,37 @@
+name: CI - Inventory Management (MSSQL Branch)
+
+on:
+  push:
+    branches:
+      - release-MSSQL
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+      - '.github/workflows/**'
+
+jobs:
+  build-and-test:
+    name: Build and Test (.NET) On Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore InventoryManagment.sln
+
+      - name: Build project
+        run: dotnet build InventoryManagment.sln --configuration Release --no-restore
+
+      - name: Run Unit Tests
+        run: dotnet test InventoryManagment.sln --no-build --verbosity normal
