@@ -51,3 +51,23 @@ string _connectionString = "Server=YOUR_PC_NAME;Database=InventoryDB;Integrated 
 string _connectionString = "Server=YOUR_PC_NAME;Database=InventoryDB;Trusted_Connection=True;";
 
 ```
+---
+
+## 🧪 Unit Testing
+
+Unit tests are written using **xUnit**, with **integration-style testing** on a real SQL Server database.
+
+### ✅ Highlights:
+
+- `ProductRepositoryTests.cs` verifies Add, Read, Update, Delete operations
+- `IAsyncLifetime` ensures proper setup and cleanup
+- All test products are auto-deleted after tests run to avoid database pollution
+- Safe to run repeatedly without manual cleanup
+
+### ▶️ Run tests manually:
+
+```bash
+dotnet test InventoryManagementTests/InventoryManagment.Tests/InventoryManagment.Tests.csproj
+```
+
+> Make sure your SQL Server is running and the `InventoryDB` database exists before testing.
