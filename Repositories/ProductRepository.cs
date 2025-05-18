@@ -77,6 +77,7 @@ public class ProductRepository
 
         return products;
     }
+    
     public async Task<Product> GetProductByIdAsync(int id)
     {
         Product product = null;
@@ -104,6 +105,7 @@ public class ProductRepository
         }
         return product;
     }
+
     public async Task DeleteProductAsync(int id)
     {
         using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -114,6 +116,24 @@ public class ProductRepository
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@id", id);
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
+    public async Task UpdateProductAsync(Product product)
+    {
+        using (SqlConnection conn = new SqlConnection(_connectionString))
+        {
+            await conn.OpenAsync();
+            string query = "UPDATE Products SET Name = @name, Quantity = @quantity, Price = @price WHERE Id = @id";
+
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", product.Id);
+                cmd.Parameters.AddWithValue("@name", product.Name);
+                cmd.Parameters.AddWithValue("@quantity", product.Quantity);
+                cmd.Parameters.AddWithValue("@price", product.Price);
                 await cmd.ExecuteNonQueryAsync();
             }
         }
