@@ -1,8 +1,53 @@
-# Inventory Management
-In this console-based application, a basic inventory management system. This system will allow a user to manage a list of products, where each product has a name, price, and quantity in stock.
+﻿# 📦 Inventory Management System (CLI-based)
 
-# References Used:
-1. https://www.programiz.com/csharp-programming/basic-input-output
-2. https://learn.microsoft.com/en-us/dotnet/csharp/how-to/compare-strings
-3. https://www.geeksforgeeks.org/c-sharp-list-class/
-4. 
+A simple **Console-based Inventory Management System** built with **C#** and **ADO.NET** using **SQL Server** (no ORMs).
+
+---
+
+## 🚀 Features
+
+- ✅ Add, View, Edit, Delete, and Search Products
+- ✅ Fully Async ADO.NET queries (`SqlConnection`, `SqlCommand`)
+- ✅ Secure: Prevents SQL Injection using Parameterized Queries
+- ✅ Input Validation (e.g., empty check)
+- ✅ Clean repository based architecture
+- ✅ Simple interactive CLI experience
+
+---
+
+## 🛠 Requirements
+
+- [.NET SDK 6+ or 8+](https://dotnet.microsoft.com/)
+- Microsoft SQL Server + SQL Server Management Studio (SSMS)
+
+---
+
+## 🧱 Database Setup
+
+1. Open SSMS.
+2. Run the following SQL:
+
+```sql
+CREATE DATABASE InventoryDB;
+
+USE InventoryDB;
+
+CREATE TABLE Products (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100),
+    Quantity INT,
+    Price FLOAT
+);
+```
+---
+
+## ⚙️ Configuration
+Check your connection string in:
+
+```csharp
+// In Program.cs
+string _connectionString = "Server=YOUR_PC_NAME;Database=InventoryDB;Integrated Security=True;";
+// or
+string _connectionString = "Server=YOUR_PC_NAME;Database=InventoryDB;Trusted_Connection=True;";
+
+```
