@@ -77,5 +77,33 @@ public class ProductRepository
 
         return products;
     }
+    public async Task<Product> GetProductByIdAsync(int id)
+    {
+        Product product = null;
+        using (SqlConnection conn = new SqlConnection(_connectionString))
+        {
+            await conn.OpenAsync();
+            string query = "SELECT * FROM Products WHERE Id = @id";
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        product = new Product
+                        {
+                            Id = (int)reader["Id"],
+                            Name = reader["Name"].ToString(),
+                            Quantity = (int)reader["Quantity"],
+                            Price = Convert.ToSingle(reader["Price"])
+                        };
+                    }
+                }
+            }
+        }
+        return product;
+    }
+
 
 }
