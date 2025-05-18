@@ -37,7 +37,6 @@ public class ProductRepository
         }
     }
 
-
     public async Task AddProductAsync(Product product)
     {
         using (SqlConnection conn = new SqlConnection(_connectionString))
