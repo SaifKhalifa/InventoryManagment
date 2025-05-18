@@ -9,7 +9,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        string _connectionString = "Server=SAIFKHALIFA-PC;Database=InventoryDB;Trusted_Connection=True;";
+        string _connectionString = "Server=SAIFKHALIFA-PC;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
         var _repo = new ProductRepository(_connectionString);
 
         if (!_repo.CheckDBConnection())

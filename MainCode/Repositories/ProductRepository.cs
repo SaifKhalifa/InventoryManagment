@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 using InventoryManagment.Models;
 using Models;
@@ -10,10 +10,20 @@ public class ProductRepository
 {
     private readonly string _connectionString;
 
-    public ProductRepository(string connectionString)
+    public ProductRepository(string? overrideConnectionString = null)
     {
-        _connectionString = connectionString;
+        _connectionString = overrideConnectionString
+            ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+            ?? "Server=SAIFKHALIFA-PC;Database=InventoryDB;Trusted_Connection=True;TrustServerCertificate=True;";
+
+        Console.WriteLine("Connection from ENV: " + Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
+
     }
+
+    //public ProductRepository(string connectionString)
+    //{
+    //    _connectionString = connectionString;
+    //}
 
     public bool CheckDBConnection()
     {
