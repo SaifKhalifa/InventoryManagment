@@ -27,6 +27,26 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Start SQL Server in Docker
+        run: |
+          docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+
+      - name: Wait for SQL Server to be ready
+        run: |
+          for i in {1..30}; do
+            if sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "SELECT 1" &> /dev/null; then
+              echo "SQL Server is up!"
+              break
+            fi
+            echo "Waiting for SQL Server..."
+            sleep 2
+          done
+
+      - name: Create InventoryDB and Products table
+        run: |
+          sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "CREATE DATABASE InventoryDB;"
+          sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -d InventoryDB -Q "CREATE TABLE Products (Id INT PRIMARY KEY IDENTITY, Name NVARCHAR(100), Quantity INT, Price FLOAT);"
+
       - name: Restore dependencies
         run: dotnet restore MainCode/InventoryManagment.sln
 
