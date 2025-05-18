@@ -1,4 +1,4 @@
-name: CI - Inventory Management (MSSQL Branch)
+name: CI - Inventory Management (MSSQL on Ubuntu)
 
 on:
   push:
@@ -15,8 +15,8 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Test (.NET) On Windows
-    runs-on: windows-latest
+    name: Build and Test (.NET with Docker SQL Server)
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -31,10 +31,17 @@ jobs:
         run: |
           docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 
+      - name: Install sqlcmd tools
+        run: |
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
+          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+          source ~/.bashrc
+
       - name: Wait for SQL Server to be ready
         run: |
           for i in {1..30}; do
-            if sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "SELECT 1" &> /dev/null; then
+            if /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "SELECT 1" &> /dev/null; then
               echo "SQL Server is up!"
               break
             fi
@@ -44,8 +51,8 @@ jobs:
 
       - name: Create InventoryDB and Products table
         run: |
-          sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "CREATE DATABASE InventoryDB;"
-          sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -d InventoryDB -Q "CREATE TABLE Products (Id INT PRIMARY KEY IDENTITY, Name NVARCHAR(100), Quantity INT, Price FLOAT);"
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "CREATE DATABASE InventoryDB;"
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -d InventoryDB -Q "CREATE TABLE Products (Id INT PRIMARY KEY IDENTITY, Name NVARCHAR(100), Quantity INT, Price FLOAT);"
 
       - name: Restore dependencies
         run: dotnet restore MainCode/InventoryManagment.sln
